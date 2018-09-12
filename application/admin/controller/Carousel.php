@@ -122,7 +122,7 @@ class Carousel extends BasisController {
                 //成功上传后，获取上传信息
                 //输出文件保存路径
                 $sub_path = str_replace('\\', '/', $info->getSaveName());
-                $picture  = '/images/' . $sub_path;
+                $picture  = '/upload/' . $sub_path;
             }
         }
         $creator = session('admin.name');
@@ -151,20 +151,98 @@ class Carousel extends BasisController {
         } else {
             return $this->error('添加轮播失败');
         }
+
+        return $this->fetch('entry');
     }
 
     /* 轮播编辑 */
     public function edit() {
+
+        /* 接收数据 */
+        $id = input('id');
+        $name = input('name');
+        $status = input('status');
+        $url = input('url');
+        $recommend = input('recommend');
+
+        /* 验证数据 */
+        $validate_data = [
+            'id'        => $id,
+            'name'      => $name,
+            'status'    => $status,
+            'url'       => $url,
+            'recommend' => $recommend
+        ];
+
+        //验证结果
+        $result = $this->carousel_validate->scene('edit')->check($validate_data);
+        if (true !== $result) {
+            return $this->error('验证出错'.$result);
+        }
+
+        /* 返回结果 */
+        $edit_result = $this->carousel_model->save($validate_data, ['id' => $id]);
+        if ($edit_result) {
+
+        }
 
     }
 
     /* 轮播详情 */
     public function detail() {
 
+        /* 接收数据 */
+        $id = input('id');
+
+        /* 验证数据 */
+        $validate_data = [
+            'id'        => $id
+        ];
+
+        /* 验证结果 */
+        $result = $this->carousel_validate->scene('detail')->check($validate_data);
+        if (true !== $result) {
+            return $this->error('验证出错'.$result);
+        }
+
+        /* 返回结果 */
+        $carousel = $this->carousel_model->where('id', $id)->find();
+
+        if ($carousel) {
+            $this->assign('carousel', $carousel);
+        } else {
+            return $this->error('数据不存在');
+        }
+
+        /* 返回数据给视图 */
+        return $this->fetch();
     }
 
     /* 轮播删除 */
     public function delete() {
+
+        /* 接收数据 */
+        $id = input('id');
+
+        /* 验证数据 */
+        $validate_data = [
+            'id'        => $id
+        ];
+
+        /* 验证结果 */
+        $result = $this->carousel_validate->scene('delete')->check($validate_data);
+        if (true !== $result) {
+            return $this->error('验证出错'.$result);
+        }
+
+        /* 返回结果 */
+        $delete_result = $this->carousel_model->where('id', $id)->delete();
+
+        if ($delete_result) {
+            return $this->success('删除成功','entry');
+        } else {
+            return $this->error('删除失败', 'entry');
+        }
 
     }
 }
