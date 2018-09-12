@@ -14,5 +14,5 @@ use think\Validate;
 class BasisValidate extends Validate {
 
     /* 统一的手机正则表达式验证 */
-    protected $regex = '';
+    protected $regex = [];
 }
