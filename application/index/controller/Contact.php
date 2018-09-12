@@ -11,4 +11,9 @@ namespace app\index\controller;
 
 class Contact extends BasicController {
 
+    /* 联系我们 */
+    public function us() {
+        return $this->fetch();
+    }
+
 }

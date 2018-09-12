@@ -11,4 +11,26 @@ namespace app\index\controller;
 
 class User extends BasicController {
 
+
+
+    public function login() {
+
+    }
+
+    public function registered() {
+
+    }
+
+    public function forgot_password() {
+
+    }
+
+    public function change_password() {
+
+    }
+
+    public function profile() {
+
+    }
+    
 }

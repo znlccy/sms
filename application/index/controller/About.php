@@ -11,4 +11,9 @@ namespace app\index\controller;
 
 class About extends BasicController {
 
+    /* 关于我们界面 */
+    public function us() {
+        return $this->fetch();
+    }
+
 }
